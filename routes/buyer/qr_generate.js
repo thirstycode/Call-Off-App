@@ -52,7 +52,7 @@ router.post('/',func.auth2,function(req, res, next)
                       else if (result.length >0)
                       { 
 
-                        QRCode.toFile('/qr.png', result[0].hash, {
+                        QRCode.toFile('./qrcodes/'+ result[0].hash + '.png', result[0].hash, {
                               color: {
                                 dark: '#00F',  // Blue dots
                                 light: '#0000' // Transparent background
@@ -60,7 +60,7 @@ router.post('/',func.auth2,function(req, res, next)
                             }, function (err) {
                               if (err)  {console.log(err);}
                               else{
-                              res.sendFile('/qr.png');
+                              res.sendFile('./qrcodes/'+ result[0].hash + '.png');
                             }
                             })
                       }     
@@ -77,7 +77,7 @@ router.post('/',func.auth2,function(req, res, next)
                           else
                           { 
 
-                             QRCode.toFile('/qr.png', hash, {
+                             QRCode.toFile('./qrcodes/'+ hash +'.png', hash, {
                               color: {
                                 dark: '#00F',  // Blue dots
                                 light: '#0000' // Transparent background
@@ -85,7 +85,7 @@ router.post('/',func.auth2,function(req, res, next)
                             }, function (err) {
                               if (err)  {console.log(err);}
                               else{
-                              res.sendFile('/qr.png');
+                              res.sendFile('./qrcodes/'+ hash + '.png');
                             }
                             })
 
