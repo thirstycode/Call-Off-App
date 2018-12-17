@@ -8,7 +8,7 @@ module.exports = {
 
     user: function(req, res) 
     {
-       con.query("SELECT name as username, email, userType FROM users where email=?",[req.decoded.data],function(err,result,fields)
+       con.query("SELECT name as username, email, userType FROM users where id=?",[req.decoded.aid],function(err,result,fields)
       {
         if(err)
         {

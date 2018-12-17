@@ -19,10 +19,17 @@ router.post('/',func.auth2,function(req, res, next)
 
     var reqArray =  req.body.requirement.split(",");
     console.log(reqArray);
+    
     var reqJson = {};
-    for (var i=0;i<=reqArray.length/2;i+=2){
-      reqJson[reqArray[i]] = parseFloat(reqArray[i+1],10);
+
+    for (var i=0;i<reqArray.length - 1;i++){
+      if(i%2==0){
+        // console.log(i,reqArray[i],reqArray[i+1])
+        reqJson[reqArray[i]] = parseFloat(reqArray[i+1],10);
+      }
     }
+
+
     var order = 
     {
       status:'incomplete',   

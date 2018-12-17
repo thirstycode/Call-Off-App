@@ -59,29 +59,50 @@ router.post('/',function(req,res,next)
         else if(result.length==1)
         { 
           if(result[0].userType == user.userType){
-            // console.log(user.password);
-            // console.log(result[0].password);
+
             if(edo.hashPassword(user.password)===result[0].password)
             {
-             
-              console.log("####"+user.email);
-              jwt.sign({data:user.email}, 'supersecretkey',function(err, token)
-                {
-              if(err){
-                console.log(err);
-                res.json({"success":false,'msg':'system failure'});
-              }
-              else
-              {
-              console.log("&&&&&&&"+token);
-              res.cookie('token',token, {maxAge: 48*60*60*1000, httpOnly: true });
-                // res.access_token=token;
-                // req.session.token = token; //optional  
 
+
+            console.log("####"+result[0].id);
+            var token=jwt.sign({aid :result[0].id}, 'supersecretkey' );
+            console.log("&&&&&&&"+token);
+
+            res.cookie('token',token, {maxAge: 48*60*60*1000, httpOnly: true });
+            
+            if(token)
+            {
+               req.token = token;  
                 next();
-              }
             }
-               );
+            else{
+              res.json({"success":false,'msg':'system failure'});
+            }
+
+
+
+
+
+
+             
+            //   console.log("####"+user.email);
+            //   jwt.sign({data:user.email}, 'supersecretkey',function(err, token)
+            //     {
+            //   if(err){
+            //     console.log(err);
+            //     res.json({"success":false,'msg':'system failure'});
+            //   }
+            //   else
+            //   {
+            //   console.log("&&&&&&&"+token);
+            //   res.cookie('token',token, {maxAge: 48*60*60*1000, httpOnly: true });
+            //     // res.access_token=token;
+            //     // req.session.token = token; //optional  
+
+            //     next();
+            //   }
+            // }
+            //    );
             }
             else{
               //wrong pass

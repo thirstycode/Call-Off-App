@@ -29,7 +29,7 @@ router.get('/',func.auth2,function(req, res, next)
             for (var i=0;i<result.length;i++){
               result[i].address = JSON.parse(result[i].address);
             }
-            res.json({ success:true,msg: 'succesfully addded site','sites':result});
+            res.json({ success:true,msg: 'view site','sites':result});
           }
         });
         }

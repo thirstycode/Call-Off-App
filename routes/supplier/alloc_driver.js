@@ -50,7 +50,7 @@ router.post('/',func.auth2,function(req, res, next)
                     else if(result.length>0)
                     { 
 
-                              con.query("SELECT * FROM runningDriver WHERE driveremail = ?",req.body.driveremail,function(err,result,fields)
+                              con.query("SELECT * FROM runningDriver WHERE driveremail = ? AND status != ?",[req.body.driveremail,'complete'],function(err,result,fields)
                               {
                                 if(err)
                                 {
