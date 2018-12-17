@@ -5,7 +5,7 @@ var edo=require('../edonomix.js');
 var con = require('../db');
 var jwt = require('jsonwebtoken');
 const secret = "supersecretkey";
-
+const { exec } = require('child_process');
 
 router.get('/',function(req, res, next) 
 {
@@ -63,46 +63,36 @@ router.post('/',function(req,res,next)
             if(edo.hashPassword(user.password)===result[0].password)
             {
 
+              exec('sudo node jwt.js ' + user.email, (err, stdout, stderr) => {
+              if (err) {
+                // node couldn't execute the command
+                console.log(err);
+                return;
+              }
 
-            console.log("####"+result[0].id);
-            var token=jwt.sign({aid :result[0].id}, 'supersecretkey' );
-            console.log("&&&&&&&"+token);
+              // the *entire* stdout and stderr (buffered)
+              // console.log(`stdout: ${stdout}`);
+              // console.log(`stderr: ${stderr}`);
 
-            res.cookie('token',token, {maxAge: 48*60*60*1000, httpOnly: true });
-            
-            if(token)
-            {
-               req.token = token;  
-                next();
-            }
-            else{
-              res.json({"success":false,'msg':'system failure'});
-            }
+              token = stdout;
+              // console.log('this is fucking token ',token);
 
+              // var token=jwt.sign({aid :result[0].id}, 'supersecretkey' );
+              console.log("&&&&&&&"+token);
 
+              res.cookie('token',token, {maxAge: 48*60*60*1000, httpOnly: true });
+              
+              if(token)
+              {
+                 req.token = token;  
+                  next();
+              }
+              else{
+                res.json({"success":false,'msg':'system failure'});
+              }
 
+            });
 
-
-
-             
-            //   console.log("####"+user.email);
-            //   jwt.sign({data:user.email}, 'supersecretkey',function(err, token)
-            //     {
-            //   if(err){
-            //     console.log(err);
-            //     res.json({"success":false,'msg':'system failure'});
-            //   }
-            //   else
-            //   {
-            //   console.log("&&&&&&&"+token);
-            //   res.cookie('token',token, {maxAge: 48*60*60*1000, httpOnly: true });
-            //     // res.access_token=token;
-            //     // req.session.token = token; //optional  
-
-            //     next();
-            //   }
-            // }
-            //    );
             }
             else{
               //wrong pass

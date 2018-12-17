@@ -3,12 +3,13 @@ var con = require('./db');
 var edo=require('./edonomix.js');
 var jwt = require('jsonwebtoken');
 const secret = "supersecretkey";
+const { exec } = require('child_process');
 
 module.exports = {
 
     user: function(req, res) 
     {
-       con.query("SELECT name as username, email, userType FROM users where id=?",[req.decoded.aid],function(err,result,fields)
+       con.query("SELECT name as username, email, userType FROM users where email=?",[req.decoded.data],function(err,result,fields)
       {
         if(err)
         {
@@ -74,20 +75,29 @@ module.exports = {
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') { // Authorization: Bearer g1jipjgi1ifjioj
       // Handle token presented as a Bearer token in the Authorization header
     console.log('--------------------------------------------------------------------------');
+    console.log('token before',token);
     token = req.headers.authorization.split(' ')[1];
+    console.log('token after',token);
     }
     console.log('token'+token);
       if (token) 
-      {
-        jwt.verify(token,'supersecretkey', function(err, decoded) {
-            if (err) 
-            {
-              res.json({"success":false,'msg':'user login page'});
-            }
-            req.decoded = decoded;
-            req.token=token;
-            next(); //no error, proceed
+      {   
+
+          exec('sudo node jwtverify.js ' + token, (err, stdout, stderr) => {
+          if (err) {
+            // node couldn't execute the command
+            console.log(err);
+            res.json({"success":false,'msg':'jwtverify file error'});
+            return;
+          }
+
+              req.decoded = JSON.parse(stdout);
+              // console.log(req.decoded.data)
+              req.token=token;
+              next();
+
         });
+
       } 
       else 
       {
