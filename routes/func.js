@@ -82,7 +82,6 @@ module.exports = {
     console.log('token'+token);
       if (token) 
       {   
-
           exec('sudo node jwtverify.js ' + token, (err, stdout, stderr) => {
           if (err) {
             // node couldn't execute the command
@@ -97,7 +96,6 @@ module.exports = {
               next();
 
         });
-
       } 
       else 
       {
