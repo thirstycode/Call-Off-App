@@ -16,4 +16,8 @@ router.use('/logout', logout_user);
 var view_user = require('./view_user');
 router.use('/view_user', view_user);
 
+var login_by_token = require('./login_by_token');
+router.use('/login_by_token', login_by_token);
+
+
 module.exports=router;

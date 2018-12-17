@@ -99,7 +99,7 @@ module.exports = {
       } 
       else 
       {
-        console.log('pratik *********************'+JSON.stringify(req.headers)+'*************************************************');
+        console.log('pratik ***********these are headers **********'+JSON.stringify(req.headers)+'*************************************************');
         res.json({"success":false,'msg':'user login page'});
       }
     }, 
