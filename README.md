@@ -9,19 +9,18 @@
 
 * **/api/auth/login/**
 
-  <_The URL Structure (path only, no root url)_>
 
 * **Method:**
   
-  <_The request type_>  `POST`
+	`POST`
 
 * **Data Params**
 
    **Required:**
  
-   `email` - email of user tobe logged in
-   `password` - password of user tobe logged in
-   `userType` - one of these three - ('Buyer','Supplier','Driver')
+   `email` - email of user tobe logged in<br>
+   `password` - password of user tobe logged in<br>
+   `userType` - one of these three - ('Buyer','Supplier','Driver')<br>
 
 
 * **Success Response:**
